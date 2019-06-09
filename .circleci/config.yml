@@ -10,11 +10,13 @@ jobs:
       ESPBUILD_VERSION: "0.01"
       GHR_VERSION: "v0.12.1"
     steps:
-      - run: esp add ghr espbuild
       - checkout
       - run:
           name: Build
+          shell: /bin/sh -e
           command: |
+            esp add ghr espbuild
+            echo gnu >> /etc/esp-repos
             espbuild ${CIRCLE_PROJECT_REPONAME}.conf
             ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /package
 
